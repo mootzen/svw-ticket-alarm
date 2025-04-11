@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from lxml import html
 
-url = "https://www.werder.de/tickets/heimspiele/"
+url = "https://web.archive.org/web/20240903034300/https://www.werder.de/tickets/heimspiele/"
 
 print(r"""
                                                                       WW
