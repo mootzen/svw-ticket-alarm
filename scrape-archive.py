@@ -82,9 +82,9 @@ if response.status_code == 200:
             row_data = []
             stehplatz_link = None
             for col in cols:
-                link = col.xpath(".//a")
-                if link:
-                    for a in link:
+                links = col.xpath(".//a")
+                if links:
+                    for a in links:
                         link_text = a.text_content().strip()
                         link_url = a.get('href')
                         print(f"Link text: {link_text}, Link URL: {link_url}")  # Debugging line
@@ -103,7 +103,7 @@ if response.status_code == 200:
         # Convert to DataFrame and save
         if headers and data:
             df = pd.DataFrame(data, columns=headers)
-            df.to_csv(r"D:\Scripte\python\svw\bearbeitungsstand.csv", index=False)
+            df.to_csv(r"bearbeitungsstand.csv", index=False)
             print(f"Table scraped and saved successfully! Total rows saved: {len(data)}")
         else:
             print("Error: No data extracted from table.")
