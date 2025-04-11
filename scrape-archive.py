@@ -2,55 +2,54 @@ import requests
 import pandas as pd
 from lxml import html
 
-url = "https://web.archive.org/web/20240903034300/https://www.werder.de/tickets/heimspiele/"
+url = "https://www.werder.de/tickets/heimspiele/"
 
-print(r"""\                                                                                                                          
-                                                                                                                                                                                                                                                                                                                                                                                                       
-                                                                      WW                                                                    
-                                                                        --                                                                  
-                                                                    WW  WW                                                                  
-                                                                  WW  WW  WW                                                                
-                                                                    WWWWWW  ..                                                              
-                                                                WW  WWWWWW  WW                                                              
-                                                              WW  WWWWWWWWWW  WW                                                            
-                                                                WWWWWWWWWWWWWW                                                              
-                                                            WW  WWWWWWWWWWWWWW  WW                                                          
-                                                          WW  WWWW            WW  WW                                                        
-                                                            WWWWWW              WW                                                          
-                                                        WW  WWWWWW              WW  WW                                                      
-                                                      WW  WWWW--WW                WW  WW                                                    
-                                                        WW        WWWWWWWW        WWWW                                                      
-                                                    WW  WW        WWWWWWWWWW        WW  WW                                                  
-                                                  WW  WWWW        WWWWWWWWWWWW      WWWW  WW                                                
-                                                    WWWW      WWWWWWWWWWWWWWWW      WWWWWW                                                  
-                                                WW  WWWW      WWWWWWWWWWWWWWWWWW    WWWWWW  WW                                              
-                                              WW  WWWWWW      WWWWWWWWWWWWWWWWWW    WWWWWWWW  WW                                            
-                                                WWWWWWWW::    WWWWWWWW  WWWWWWWW    WWWWWWWWWW                                              
-                                            WW  WWWWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWWWW  WW                                          
-                                              WW  WWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWW  WW                                            
-                                                  WWWWWWWW    WWWWWW      WWWWWW    WWWWWWWW                                                
-                                                WW  WWWWWW    WWWWWW      WWWWWW    WWWWWW  WW                                              
-                                                  WW  WWWWWW  WWWW          WWWW  WWWWWW  WW                                                
-                                                      WWWWWW    WW          WW    WWWWWW                                                    
-                                                    WW  WWWW                      WWWW  WW                                                  
-                                                      WW  WWWW        WW        WWWW  WW                                                    
-                                                          WWWW        WW        WWWW  --                                                    
-                                                        WW  WW      WWWWWW      WW  WW                                                      
-                                                          WW  WW    WWWWWW    WW  WW                                                        
-                                                              WW  WWWWWWWWWW  WW  ++                                                        
-                                                            WW  WWWWWWWWWWWWWW  WW                                                          
-                                                              WW  WWWWWWWWWW  WW                                                            
-                                                                  WWWWWWWWWW  WW                                                            
-                                                                WW  WWWWWW  WW                                                              
-                                                                  WW  WW  ++                                                                
-                                                                  ..  WW  WW                                                                
-                                                                    WW  WW                                                                  
-                                                                      WW                                                                    
-                                                                      ::                                                                    
-                                                            LEBENSLANG GRÜN-WEISS                                                                                                                                                                                                                                                                                                                                                                                                              
-    """)
+print(r"""
+                                                                      WW
+                                                                        --
+                                                                    WW  WW
+                                                                  WW  WW  WW
+                                                                    WWWWWW  ..
+                                                                WW  WWWWWW  WW
+                                                              WW  WWWWWWWWWW  WW
+                                                                WWWWWWWWWWWWWW
+                                                            WW  WWWWWWWWWWWWWW  WW
+                                                          WW  WWWW            WW  WW
+                                                            WWWWWW              WW
+                                                        WW  WWWWWW              WW  WW
+                                                      WW  WWWW--WW                WW  WW
+                                                        WW        WWWWWWWW        WWWW
+                                                    WW  WW        WWWWWWWWWW        WW  WW
+                                                  WW  WWWW        WWWWWWWWWWWW      WWWW  WW
+                                                    WWWW      WWWWWWWWWWWWWWWW      WWWWWW
+                                                WW  WWWW      WWWWWWWWWWWWWWWWWW    WWWWWW  WW
+                                              WW  WWWWWW      WWWWWWWWWWWWWWWWWW    WWWWWWWW  WW
+                                                WWWWWWWW::    WWWWWWWW  WWWWWWWW    WWWWWWWWWW
+                                            WW  WWWWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWWWW  WW
+                                              WW  WWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWW  WW
+                                                  WWWWWWWW    WWWWWW      WWWWWW    WWWWWWWW
+                                                WW  WWWWWW    WWWWWW      WWWWWW    WWWWWW  WW
+                                                  WW  WWWWWW  WWWW          WWWW  WWWWWW  WW
+                                                      WWWWWW    WW          WW    WWWWWW
+                                                    WW  WWWW                      WWWW  WW
+                                                      WW  WWWW        WW        WWWW  WW
+                                                          WWWW        WW        WWWW  --
+                                                        WW  WW      WWWWWW      WW  WW
+                                                          WW  WW    WWWWWW    WW  WW
+                                                              WW  WWWWWWWWWW  WW  ++
+                                                            WW  WWWWWWWWWWWWWW  WW
+                                                              WW  WWWWWWWWWW  WW
+                                                                  WWWWWWWWWW  WW
+                                                                WW  WWWWWW  WW
+                                                                  WW  WW  ++
+                                                                  ..  WW  WW
+                                                                    WW  WW
+                                                                      WW
+                                                                      ::
+                                                            LEBENSLANG GRÜN-WEISS
+""")
 
-
+# Send an HTTP request to fetch the page content
 headers = {"User-Agent": "Mozilla/5.0"}  # Set user-agent to avoid blocking
 response = requests.get(url, headers=headers)
 
@@ -58,7 +57,7 @@ response = requests.get(url, headers=headers)
 if response.status_code == 200:
     # Parse the HTML content using lxml
     tree = html.fromstring(response.content)
-    
+
     # Use XPath to select the correct table
     table_element = tree.xpath('/html/body/section[5]/div[1]/div/div[1]/div[3]')
 
@@ -71,6 +70,9 @@ if response.status_code == 200:
 
         # Extract headers from the first row
         headers = [th.text_content().strip() for th in rows[0].xpath(".//th")]
+        if not headers:
+            # If headers are not found, manually assign them or handle the case
+            headers = ["Date", "Opponent", "Order Period", "Link"]
         print("Extracted headers:", headers)
 
         # Extract table data
@@ -91,15 +93,5 @@ if response.status_code == 200:
             print("Error: No data extracted from table.")
     else:
         print("Table not found using XPath. Verify the XPath expression and page structure.")
-    
-    # Use XPath to search for the link containing 'Bestellliste für Sitzplätze'
-    links = tree.xpath("//a[contains(text(), 'Bestellliste für Sitzplätze')]/@href")
-
-    if links:
-        # Extract the first matching link
-        ticket_link = links[0]
-        print(f"Found the link for 'Bestellliste für Sitzplätze': {ticket_link}")
-    else:
-        print("No link found for 'Bestellliste für Sitzplätze'.")
 else:
     print("Failed to retrieve the webpage. Status code:", response.status_code)
