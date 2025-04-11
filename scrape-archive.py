@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 from lxml import html
 
-url = "https://web.archive.org/web/20240903034300/https://www.werder.de/tickets/heimspiele/"
+url = "https://www.werder.de/tickets/heimspiele/"
 
 print(r"""
                                                                       WW
@@ -79,7 +79,13 @@ if response.status_code == 200:
         data = []
         for i, row in enumerate(rows[1:], start=1):  # Skip header row
             cols = row.xpath(".//td")
-            row_data = [col.text_content().strip() for col in cols]
+            row_data = []
+            for col in cols:
+                link = col.xpath(".//a")
+                if link:
+                    row_data.append(link[0].get('href'))
+                else:
+                    row_data.append(col.text_content().strip())
             print("Extracted row data:", row_data)
             if len(row_data) == len(headers):  # Ensure correct number of columns
                 data.append(row_data)
