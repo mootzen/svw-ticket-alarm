@@ -4,51 +4,6 @@ from lxml import html
 
 url = "https://web.archive.org/web/20240903034300/https://www.werder.de/tickets/heimspiele/"
 
-print(r"""
-                                                                      WW
-                                                                        --
-                                                                    WW  WW
-                                                                  WW  WW  WW
-                                                                    WWWWWW  ..
-                                                                WW  WWWWWW  WW
-                                                              WW  WWWWWWWWWW  WW
-                                                                WWWWWWWWWWWWWW
-                                                            WW  WWWWWWWWWWWWWW  WW
-                                                          WW  WWWW            WW  WW
-                                                            WWWWWW              WW
-                                                        WW  WWWWWW              WW  WW
-                                                      WW  WWWW--WW                WW  WW
-                                                        WW        WWWWWWWW        WWWW
-                                                    WW  WW        WWWWWWWWWW        WW  WW
-                                                  WW  WWWW        WWWWWWWWWWWW      WWWW  WW
-                                                    WWWW      WWWWWWWWWWWWWWWW      WWWWWW
-                                                WW  WWWW      WWWWWWWWWWWWWWWWWW    WWWWWW  WW
-                                              WW  WWWWWW      WWWWWWWWWWWWWWWWWW    WWWWWWWW  WW
-                                                WWWWWWWW::    WWWWWWWW  WWWWWWWW    WWWWWWWWWW
-                                            WW  WWWWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWWWW  WW
-                                              WW  WWWWWWWW    WWWWWWWW  WWWWWWWW    WWWWWWWW  WW
-                                                  WWWWWWWW    WWWWWW      WWWWWW    WWWWWWWW
-                                                WW  WWWWWW    WWWWWW      WWWWWW    WWWWWW  WW
-                                                  WW  WWWWWW  WWWW          WWWW  WWWWWW  WW
-                                                      WWWWWW    WW          WW    WWWWWW
-                                                    WW  WWWW                      WWWW  WW
-                                                      WW  WWWW        WW        WWWW  WW
-                                                          WWWW        WW        WWWW  --
-                                                        WW  WW      WWWWWW      WW  WW
-                                                          WW  WW    WWWWWW    WW  WW
-                                                              WW  WWWWWWWWWW  WW  ++
-                                                            WW  WWWWWWWWWWWWWW  WW
-                                                              WW  WWWWWWWWWW  WW
-                                                                  WWWWWWWWWW  WW
-                                                                WW  WWWWWW  WW
-                                                                  WW  WW  ++
-                                                                  ..  WW  WW
-                                                                    WW  WW
-                                                                      WW
-                                                                      ::
-                                                            LEBENSLANG GRÜN-WEISS
-""")
-
 # Send an HTTP request to fetch the page content
 headers = {"User-Agent": "Mozilla/5.0"}  # Set user-agent to avoid blocking
 response = requests.get(url, headers=headers)
@@ -80,7 +35,8 @@ if response.status_code == 200:
         for i, row in enumerate(rows[1:], start=1):  # Skip header row
             cols = row.xpath(".//td")
             row_data = []
-            stehplatz_link = None
+            stehplatz_link = None  # Initialize the variable to hold the Stehplätze link
+            sitzplatz_link = None  # Initialize the variable to hold the Sitzplätze link
             for col in cols:
                 links = col.xpath(".//a")
                 if links:
@@ -89,16 +45,26 @@ if response.status_code == 200:
                         link_url = a.get('href')
                         print(f"Link text: {link_text}, Link URL: {link_url}")  # Debugging line
                         row_data.append(link_url)
+                
+                        # Check for the "Stehplätze" link
                         if "Stehplätze" in link_text:
                             stehplatz_link = link_url
+                        # Check for the "Sitzplätze" link
+                        if "Sitzplätze" in link_text:
+                            sitzplatz_link = link_url
                 else:
                     row_data.append(col.text_content().strip())
+            
             print("Extracted row data:", row_data)
+
+            # If a "Stehplätze" link was found, print the order period and link
+            if stehplatz_link:
+                print(f"Aktive Bestellphase gefunden! VS {row_data[1]} Bestellfenster: {row_data[2]} Stehplatz: {stehplatz_link}")
+            if sitzplatz_link:
+                print(f"Sitzplatz Bestellphase gefunden! VS {row_data[1]} Bestellfenster: {row_data[2]} Sitzplatz: {sitzplatz_link}")
+
             if len(row_data) == len(headers):  # Ensure correct number of columns
                 data.append(row_data)
-                # Check if a link labeled "Stehplätze" is found and print the message
-                if stehplatz_link:
-                    print(f"Aktive Bestellphase gefunden! VS {row_data[1]} Bestellfenster: {row_data[2]} Stehplatz: {stehplatz_link}")
 
         # Convert to DataFrame and save
         if headers and data:
