@@ -43,14 +43,17 @@ if response.status_code == 200:
                     for a in links:
                         link_text = a.text_content().strip()
                         link_url = a.get('href')
-                        print(f"Link text: {link_text}, Link URL: {link_url}")  # Debugging line
+                        
+                        # Get the text before the link
+                        text_before_link = ''.join(col.xpath("text()")).strip()
+                        print(f"Text before link: {text_before_link}, Link text: {link_text}, Link URL: {link_url}")  # Debugging line
                         row_data.append(link_url)
                 
-                        # Check for the "Stehplätze" link
-                        if "Stehplätze" in link_text:
+                        # Check for the "Stehplätze" text before the link
+                        if "Stehplätze" in text_before_link:
                             stehplatz_link = link_url
-                        # Check for the "Sitzplätze" link
-                        if "Sitzplätze" in link_text:
+                        # Check for the "Sitzplätze" text before the link
+                        if "Sitzplätze" in text_before_link:
                             sitzplatz_link = link_url
                 else:
                     row_data.append(col.text_content().strip())
