@@ -80,15 +80,24 @@ if response.status_code == 200:
         for i, row in enumerate(rows[1:], start=1):  # Skip header row
             cols = row.xpath(".//td")
             row_data = []
+            link_found = False
             for col in cols:
                 link = col.xpath(".//a")
                 if link:
-                    row_data.append(link[0].get('href'))
+                    link_text = link[0].text_content().strip()
+                    link_url = link[0].get('href')
+                    row_data.append(link_url)
+                    if "Stehplätze" in link_text:
+                        link_found = True
+                        stehplatz_link = link_url
                 else:
                     row_data.append(col.text_content().strip())
             print("Extracted row data:", row_data)
             if len(row_data) == len(headers):  # Ensure correct number of columns
                 data.append(row_data)
+                # Check if a link labeled "Stehplätze" is found and print the message
+                if link_found:
+                    print(f"Aktive Bestellphase gefunden! VS {row_data[1]} Bestellfenster: {row_data[2]} Stehplatz: {stehplatz_link}")
 
         # Convert to DataFrame and save
         if headers and data:
