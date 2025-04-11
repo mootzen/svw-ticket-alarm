@@ -84,11 +84,13 @@ if response.status_code == 200:
             for col in cols:
                 link = col.xpath(".//a")
                 if link:
-                    link_text = link[0].text_content().strip()
-                    link_url = link[0].get('href')
-                    row_data.append(link_url)
-                    if "Stehplätze" in link_text:
-                        stehplatz_link = link_url
+                    for a in link:
+                        link_text = a.text_content().strip()
+                        link_url = a.get('href')
+                        print(f"Link text: {link_text}, Link URL: {link_url}")  # Debugging line
+                        row_data.append(link_url)
+                        if "Stehplätze" in link_text:
+                            stehplatz_link = link_url
                 else:
                     row_data.append(col.text_content().strip())
             print("Extracted row data:", row_data)
