@@ -51,7 +51,6 @@ print(r"""\
     """)
 
 
-# Send an HTTP request to fetch the page content
 headers = {"User-Agent": "Mozilla/5.0"}  # Set user-agent to avoid blocking
 response = requests.get(url, headers=headers)
 
@@ -92,5 +91,15 @@ if response.status_code == 200:
             print("Error: No data extracted from table.")
     else:
         print("Table not found using XPath. Verify the XPath expression and page structure.")
+    
+    # Use XPath to search for the link containing 'Bestellliste für Sitzplätze'
+    links = tree.xpath("//a[contains(text(), 'Bestellliste für Sitzplätze')]/@href")
+
+    if links:
+        # Extract the first matching link
+        ticket_link = links[0]
+        print(f"Found the link for 'Bestellliste für Sitzplätze': {ticket_link}")
+    else:
+        print("No link found for 'Bestellliste für Sitzplätze'.")
 else:
     print("Failed to retrieve the webpage. Status code:", response.status_code)
